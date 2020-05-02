@@ -1,0 +1,96 @@
+{% extends 'menu/base.html' %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+
+li a {
+	color:#888;
+}
+
+ul li{
+	text-decoration:none;
+	list-style:none;
+}
+.carousel-inner{height: 200px;}
+
+.form-elegant .font-small {
+    font-size: 0.8rem; }
+
+.form-elegant .z-depth-1a {
+    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
+
+.form-elegant .z-depth-1-half,
+.form-elegant .btn:hover {
+    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
+    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }
+
+.form-elegant .modal-header {
+    border-bottom: none; }
+
+.modal-dialog .form-elegant .btn .fab {
+    color: #2196f3!important; }
+
+.form-elegant .modal-body, .form-elegant .modal-footer {
+    font-weight: 400; }
+</style>
+
+{% load socialaccount %}
+
+<h1 align="right">العنوان بداية الصفحة</h1>
+{% if user.is_authenticated %}
+<p>Welcome {{ user.username }} !!!</p>
+{% else %}
+<a href="{% provider_login_url 'github' %}">Sign Up</a>
+{% endif %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+<form action="" method="post" class="form" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ login_form }}
+  <button type="submit" class="btn btn-primary btn-lg btn-block">Block level button</button>
+</form>
+
+
+<!--<h1><a href="/123/" style="color:#000;">Abcd</a></h1>-->
+<!--<img src="{{x.pic.url}}" height="200px" width="200px alt="" />-->
+
+
+<div class="row">		
+{% for album in object_list %}
+		<div class="col col-md-6 col-lg-4">
+
+				
+<form action="{% url 'album-delete' album.id %}" method="post" id="abcd">
+		{% csrf_token %}
+<div class="card text-center">
+  <div class="card-header">
+    <span><a href="/{{album.id}}/" >{{album.title}}</a></span>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <button type="submit" class="btn btn-primary">Delete</button>
+  </div>
+  <div class="card-footer text-muted">
+    <audio src="{{album.audio.url}}" controls>
+    Audio element not supported by your browser
+    </audio><br />
+  </div>
+</div>
+		
+	</form>
+	
+	</div>
+
+
+	
+{% endfor %}
+
+</div>
+
+
+{% endblock %}
